@@ -6,7 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		81BBD8A72D7DE934009A6F89 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 81BBD8A62D7DE934009A6F89 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		81BBD8A62D7DE934009A6F89 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		81C819422D7DA16A0037783A /* JoyPet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JoyPet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -34,6 +39,7 @@
 			children = (
 				81C819442D7DA16A0037783A /* JoyPet */,
 				81C819432D7DA16A0037783A /* Products */,
+				81BBD8A62D7DE934009A6F89 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81BBD8A72D7DE934009A6F89 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,7 +19,7 @@ enum TabbedItems: Int, CaseIterable {
         }
     }
     
-    var iconName: String{
+    var iconName: String {
         switch self {
         case .home:
             return "house"
