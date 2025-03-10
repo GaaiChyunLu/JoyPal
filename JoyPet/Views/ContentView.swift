@@ -1,5 +1,6 @@
 import SwiftUI
 
+// TODO: UI refines
 enum TabbedItems: Int, CaseIterable {
     case home = 0
     case create
@@ -9,26 +10,26 @@ enum TabbedItems: Int, CaseIterable {
     var title: String {
         switch self {
         case .home:
-            return "Home"
+            "Home"
         case .create:
-            return "Create"
+            "Create"
         case .explore:
-            return "Explore"
+            "Explore"
         case .joyPet:
-            return "JoyPet"
+            "JoyPet"
         }
     }
     
     var iconName: String {
         switch self {
         case .home:
-            return "house"
+            "house"
         case .create:
-            return "pencil"
+            "pencil"
         case .explore:
-            return "safari"
+            "safari"
         case .joyPet:
-            return "pawprint.fill"
+            "pawprint.fill"
         }
     }
 }
@@ -74,7 +75,9 @@ extension ContentView {
                 .resizable()
                 .renderingMode(.template)
                 .frame(width: 20, height: 20)
-            Text(title)
+            if isActive {
+                Text(title)
+            }
             Spacer()
         }
         .foregroundColor(isActive ? .blue : .gray)

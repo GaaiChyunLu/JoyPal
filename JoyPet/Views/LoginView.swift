@@ -7,18 +7,18 @@ private enum TextFieldType {
     var placeholder: String {
         switch self {
         case .username:
-            return "Enter your username"
+            "Enter your username"
         case .password:
-            return "Enter your password"
+            "Enter your password"
         }
     }
     
     var imageName: String {
         switch self {
         case .username:
-            return "person"
+            "person"
         case .password:
-            return "lock"
+            "lock"
         }
     }
 }
