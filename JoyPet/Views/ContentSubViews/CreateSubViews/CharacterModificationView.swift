@@ -33,16 +33,18 @@ struct CharacterModificationView: View {
     @State var personality = ""
     @State var sound = ""
     
+    @State private var currentPicker: PickerType? = nil
+    
     var body: some View {
         BaseSubView(title: "Character Modification") {
             VStack {
                 Text("Let's set your pet's personality!")
                 
-                PersonalityPicker(type: .gender, selection: $gender)
+                PersonalityPicker(type: .gender, selection: $gender, currentPicker: $currentPicker)
                 
-                PersonalityPicker(type: .personality, selection: $personality)
+                PersonalityPicker(type: .personality, selection: $personality, currentPicker: $currentPicker)
                 
-                PersonalityPicker(type: .sound, selection: $sound)
+                PersonalityPicker(type: .sound, selection: $sound, currentPicker: $currentPicker)
                 
                 Button(action: {
                     
@@ -72,6 +74,7 @@ struct CharacterModificationView: View {
             .padding(.horizontal, 20)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .animation(.easeInOut(duration: 0.2), value: currentPicker)
     }
     
     private func isAllSelected() -> Bool {
@@ -88,58 +91,67 @@ struct CharacterModificationView: View {
 private struct PersonalityPicker: View {
     var type: PickerType
     @Binding var selection: String
-    @State var isPicking = false
+    @Binding var currentPicker: PickerType?
     
     var body: some View {
-        HStack {
-            Text(selection.isEmpty ? type.title : selection)
+        VStack {
+            HStack {
+                Text(selection.isEmpty ? type.title : selection)
+                
+                Spacer()
+                
+                Image(systemName: "chevron.up")
+                    .rotationEffect(.degrees(isPicking() ? 180 : 0))
+            }
+            .padding(10)
+            .frame(maxWidth: .infinity)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke())
+            .foregroundColor(selection.isEmpty ? .secondary : .primary)
+            .scaleEffect(isPicking() ? 1.05 : 1)
+            .onTapGesture {
+                currentPicker = currentPicker == type ? nil : type
+            }
             
-            Spacer()
-            
-            Image(systemName: "chevron.up.chevron.down")
-        }
-        .padding(10)
-        .frame(maxWidth: .infinity)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .overlay(RoundedRectangle(cornerRadius: 10).stroke())
-        .foregroundColor(selection.isEmpty ? .secondary : .primary)
-        .scaleEffect(isPicking ? 1.1 : 1)
-        .onTapGesture {
-            isPicking.toggle()
-        }
-        .popover(isPresented: $isPicking, attachmentAnchor: .point(.bottomTrailing), arrowEdge: .top) {
-            ScrollView {
-                VStack(alignment: .leading) {
-                    ForEach(type.choices, id: \.self) { choice in
-                        HStack {
-                            Text(choice)
-                            
-                            Spacer()
-                            
-                            if choice == selection {
-                                Image(systemName: "checkmark")
+            if isPicking() {
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        ForEach(type.choices, id: \.self) { choice in
+                            HStack {
+                                Text(choice)
+                                
+                                Spacer()
+                                
+                                if choice == selection {
+                                    Image(systemName: "checkmark")
+                                }
                             }
-                        }
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            selection = choice
-                            isPicking.toggle()
-                        }
-                        .padding(.vertical, 5)
-                        .padding(.horizontal, 20)
-                        
-                        if choice != type.choices.last {
-                            Divider()
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                selection = choice
+                                currentPicker = nil
+                            }
+                            .padding(.vertical, 5)
+                            .padding(.horizontal, 20)
+                            
+                            if choice != type.choices.last {
+                                Divider()
+                            }
                         }
                     }
                 }
+                .frame(height: 120)
+                .padding(.vertical, 10)
+                .scrollIndicators(.never)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke())
+                .transition(.asymmetric(insertion: .push(from: .bottom), removal: .push(from: .top)))
             }
-            .frame(width: 200)
-            .padding(.vertical, 10)
-            .scrollIndicators(.never)
-            .presentationCompactAdaptation(.popover)
         }
-        .animation(.easeInOut(duration: 0.2), value: isPicking)
+    }
+    
+    private func isPicking() -> Bool {
+        currentPicker == type
     }
 }
 

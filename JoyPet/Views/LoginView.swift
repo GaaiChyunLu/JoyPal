@@ -90,7 +90,7 @@ private struct LoginTextField: View {
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
-        .background(.yellow)
+        .background(.gray)
         .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
