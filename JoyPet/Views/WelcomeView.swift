@@ -6,9 +6,10 @@ struct WelcomeView: View {
         NavigationStack {
             VStack {
                 Text("JoyPet")
-                Image(systemName: "heart.fill")
+                Image(systemName: "dog")
                     .resizable()
-                    .frame(width: 100, height: 100)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 80, height: 80)
                 Text("Character Creator")
                 Text("Enter the world of character creation")
                 

@@ -3,7 +3,10 @@ import SwiftUI
 struct HomeView: View {
     var body: some View {
         BaseSubView(title: "Home") {
-            Text("Home View")
+            VStack {
+                Text("HOME VIEW")
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }

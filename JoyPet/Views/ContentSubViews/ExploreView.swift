@@ -2,7 +2,12 @@ import SwiftUI
 
 struct ExploreView: View {
     var body: some View {
-        Text("Explore View")
+        BaseSubView(title: "Explore") {
+            VStack {
+                Text("EXPLORE VIEW")
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
     }
 }
 

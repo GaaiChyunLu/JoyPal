@@ -3,7 +3,10 @@ import SwiftUI
 struct CreateView: View {
     var body: some View {
         BaseSubView(title: "Create") {
-            Text("Create View")
+            VStack {
+                Text("CREATE VIEW")
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
