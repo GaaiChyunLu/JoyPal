@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ExploreView: View {
     var body: some View {
-        BaseSubView(title: "Explore") {
+        BaseSubView {
             VStack {
                 Text("EXPLORE VIEW")
             }

@@ -1,21 +1,20 @@
 import SwiftUI
 
 struct BaseSubView<Content: View>: View {
-    var title: String
     var content: () -> Content
     
     var body: some View {
         VStack {
-            Text(title)
-            
             content()
         }
+        .ignoresSafeArea()
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        .background(.butteryWhite)
     }
 }
 
 #Preview {
-    BaseSubView(title: "Test Title") {
+    BaseSubView {
         Text("Test Content")
     }
 }

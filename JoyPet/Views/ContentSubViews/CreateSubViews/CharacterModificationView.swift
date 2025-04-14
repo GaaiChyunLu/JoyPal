@@ -36,7 +36,7 @@ struct CharacterModificationView: View {
     @State private var currentPicker: PickerType? = nil
     
     var body: some View {
-        BaseSubView(title: "Character Modification") {
+        BaseSubView {
             VStack {
                 Text("Let's set your pet's personality!")
                 

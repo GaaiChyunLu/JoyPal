@@ -2,7 +2,7 @@ import SwiftUI
 
 struct JoyPetView: View {
     var body: some View {
-        BaseSubView(title: "JoyPet Name") {
+        BaseSubView {
             VStack {
                 Image(systemName: "dog")
                     .resizable()

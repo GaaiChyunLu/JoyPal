@@ -1,5 +1,74 @@
 import SwiftUI
 
+struct LoginView: View {
+    @State var username = ""
+    @State var password = ""
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            Text("Access Account")
+                .font(.FreckleFace_Regular, size: 32)
+                .foregroundStyle(.vampireGrey)
+                .padding(.bottom, 20)
+            
+            VStack(spacing: 34) {
+                LoginTextField(type: .username, text: $username)
+                
+                LoginTextField(type: .password, text: $password)
+            }
+            .padding(.horizontal, 29)
+            .padding(.vertical, 42)
+            .background(
+                Rectangle()
+                    .fill(
+                        .shadow(.drop(color: .black.opacity(0.25), radius: 3, x: 0, y: 6))
+                    )
+                    .foregroundStyle(.butteryWhite)
+            )
+            .padding(.bottom, 30)
+            
+            Button(action: {
+                // TODO: Retrieve password
+            }) {
+                HStack {
+                    Text("Forget your password?")
+                        .font(Font.system(size: 12))
+                }
+                .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            .padding(.bottom, 25)
+            
+            Button(action: {
+                // TODO: Log in
+            }) {
+                Text("Log In")
+                    .padding(.vertical, 11)
+                    .padding(.horizontal, 58)
+                    .font(.OtomanopeeOne_Regular, size: 22)
+                    .foregroundStyle(.whiteSmoke)
+                    .background(.sherwoodGreen)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(.heavyMetal, lineWidth: 1))
+            }
+            .padding(.bottom, 16)
+            
+            Button(action: {
+                // TODO: Sign up
+            }) {
+                Text("Sign Up")
+                    .font(Font.system(size: 12))
+            }
+            
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(.top, 142)
+        .padding(.horizontal, 35)
+        .ignoresSafeArea()
+        .background(.butteryWhite)
+    }
+}
+
 private enum TextFieldType {
     case username
     case password
@@ -7,64 +76,19 @@ private enum TextFieldType {
     var placeholder: String {
         switch self {
         case .username:
-            "Enter your username"
+            "Username"
         case .password:
-            "Enter your password"
+            "Password"
         }
     }
     
-    var imageName: String {
+    var imageName: ImageResource {
         switch self {
         case .username:
-            "person"
+            .logInPerson
         case .password:
-            "lock"
+            .logInLock
         }
-    }
-}
-
-// TODO: UI refines
-struct LoginView: View {
-    @State var username = ""
-    @State var password = ""
-    
-    var body: some View {
-        VStack {
-            Text("Access Account")
-            
-            Text("Log in to access your personalized JoyPet")
-            
-            LoginTextField(type: .username, text: $username)
-            
-            LoginTextField(type: .password, text: $password)
-            
-            Button(action: {
-                // TODO: Retrieve password
-            }) {
-                HStack {
-                    Text("Forget your password?")
-                }
-                .frame(maxWidth: .infinity, alignment: .trailing)
-            }
-            
-            Button(action: {
-                // TODO: Log in
-            }) {
-                Text("Log in")
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
-                    .background(.blue)
-                    .foregroundStyle(.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-            }
-            
-            Button(action: {
-                // TODO: Sign up
-            }) {
-                Text("Sign up")
-            }
-        }
-        .padding(.horizontal, 20)
     }
 }
 
@@ -73,11 +97,11 @@ private struct LoginTextField: View {
     @Binding var text: String
     
     var body: some View {
-        HStack {
-            Image(systemName: type.imageName)
+        HStack(spacing: 20) {
+            Image(type.imageName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 20, height: 20)
+                .frame(width: 22, height: 22)
             
             switch type {
             case .username:
@@ -88,10 +112,18 @@ private struct LoginTextField: View {
                 SecureField(type.placeholder, text: $text)
             }
         }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 10)
-        .background(.gray)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .font(.Commissioner_Bold, size: 16)
+        .foregroundStyle(.white)
+        .frame(height: 53)
+        .padding(.horizontal, 11)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(
+                    .shadow(.inner(color: .black.opacity(0.25), radius: 2, x: 0, y: 5))
+                )
+                .foregroundStyle(.apricot, opacity: 0.8)
+        )
     }
 }
 

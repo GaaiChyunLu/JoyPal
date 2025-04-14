@@ -2,7 +2,7 @@ import SwiftUI
 
 struct InitialCharacterDisplayView: View {
     var body: some View {
-        BaseSubView(title: "Initial Character Display") {
+        BaseSubView {
             VStack {
                 Text("Character Name")
                 

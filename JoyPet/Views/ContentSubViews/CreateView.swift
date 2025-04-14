@@ -2,11 +2,18 @@ import SwiftUI
 
 struct CreateView: View {
     var body: some View {
-        BaseSubView(title: "Create") {
-            VStack {
-                Text("CREATE VIEW")
+        NavigationStack {
+            BaseSubView {
+                VStack {
+                    NavigationLink {
+                        CharacterGenerationView()
+                    } label: {
+                        Text("Finish")
+                    }
+
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }

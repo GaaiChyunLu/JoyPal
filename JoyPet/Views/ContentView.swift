@@ -1,90 +1,70 @@
 import SwiftUI
 
-// TODO: UI refines
-enum TabbedItems: Int, CaseIterable {
-    case home = 0
-    case create
-    case explore
-    case joyPet
-    
-    var title: String {
-        switch self {
-        case .home:
-            "Home"
-        case .create:
-            "Create"
-        case .explore:
-            "Explore"
-        case .joyPet:
-            "JoyPet"
-        }
-    }
-    
-    var iconName: String {
-        switch self {
-        case .home:
-            "house"
-        case .create:
-            "pencil"
-        case .explore:
-            "safari"
-        case .joyPet:
-            "pawprint.fill"
-        }
-    }
-}
-
 struct ContentView: View {
-    @State var selectedTab = 0
+    @EnvironmentObject private var tabManager: TabManager
     
     var body: some View {
-        VStack {
-            TabView(selection: $selectedTab) {
+        VStack(spacing: 0) {
+            TabView(selection: $tabManager.selectedTab) {
                 HomeView()
-                    .tag(0)
-                
-                CreateView()
-                    .tag(1)
+                    .tag(TabbedItems.home)
                 
                 ExploreView()
-                    .tag(2)
+                    .tag(TabbedItems.explore)
+                
+                CreateView()
+                    .tag(TabbedItems.create)
                 
                 JoyPetView()
-                    .tag(3)
+                    .tag(TabbedItems.joyPet)
             }
             
             HStack(spacing: 0) {
-                ForEach((TabbedItems.allCases), id: \.self) { item in
+                ForEach(TabbedItems.allCases, id: \.self) { item in
                     Button(action: {
-                        selectedTab = item.rawValue
+                        tabManager.selectedTab = item
                     }) {
-                        CustomTabItem(imageName: item.iconName, title: item.title, isActive: (selectedTab == item.rawValue))
+                        CustomTabItem(item: item)
                     }
                 }
             }
-            .frame(width: UIScreen.screenBounds.width, height: 70)
+            .frame(width: UIScreen.screenBounds.width, height: 82)
+            .padding(.bottom, 10)
+            .background(
+                Rectangle()
+                    .fill(
+                        .shadow(.drop(color: .black.opacity(0.25), radius: 2, x: 0, y: -4))
+                    )
+                    .foregroundStyle(.butteryWhite)
+            )
         }
+        .ignoresSafeArea()
     }
 }
 
-extension ContentView {
-    func CustomTabItem(imageName: String, title: String, isActive: Bool) -> some View {
-        VStack {
-            Spacer()
-            Image(systemName: imageName)
+private struct CustomTabItem: View {
+    var item: TabbedItems
+    @EnvironmentObject private var tabManager: TabManager
+    
+    var body: some View {
+        let isActive = (tabManager.selectedTab == item)
+        VStack(spacing: 6) {
+            Image(item.iconName)
                 .resizable()
-                .renderingMode(.template)
-                .frame(width: 20, height: 20)
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 25, height: 25)
             if isActive {
-                Text(title)
+                Text(item.title)
+                    .font(.Hannari_Regular, size: 12)
             }
-            Spacer()
         }
-        .foregroundColor(isActive ? .blue : .gray)
-        .frame(width: UIScreen.screenBounds.width / 4, height: 70)
+        .foregroundStyle(.vampireGrey)
+        .frame(width: UIScreen.screenBounds.width / 5)
+        .animation(.easeInOut(duration: 0.2), value: isActive)
     }
 }
 
 #Preview {
     ContentView()
+        .environmentObject(TabManager())
 }

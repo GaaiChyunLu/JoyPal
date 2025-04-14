@@ -34,7 +34,7 @@ struct PersonalizationSettingsView: View {
     @State private var selectedChoices = [String].init(repeating: "", count: QuestionType.allCases.count)
     
     var body: some View {
-        BaseSubView(title: "Personalization Settings") {
+        BaseSubView {
             VStack {
                 Text("Character Personality Questionnaire")
                 

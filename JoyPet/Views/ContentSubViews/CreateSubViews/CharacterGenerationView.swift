@@ -43,7 +43,7 @@ struct CharacterGenerationView: View {
     @State private var progressValue = 0.0
     
     var body: some View {
-        BaseSubView(title: "Character Generation") {
+        BaseSubView {
             VStack {
                 ProgressView(value: progressValue, total: 100) {
                     Text(progressValue / 100, format: .percent)

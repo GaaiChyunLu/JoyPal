@@ -1,31 +1,53 @@
 import SwiftUI
 
-// TODO: UI refines
 struct WelcomeView: View {
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(spacing: 0) {
                 Text("JoyPet")
+                    .font(.FreckleFace_Regular, size: 32)
+                    .foregroundStyle(.vampireGrey)
+                    .padding(.bottom, 10)
+                
                 Image(systemName: "dog")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 80, height: 80)
+                    .frame(width: 136, height: 136)
+                    .background(.green)
+                    .clipShape(Circle())
+                    .padding(.bottom, 20)
+                
                 Text("Character Creator")
+                    .font(.OtomanopeeOne_Regular, size: 22)
+                    .foregroundStyle(.vampireGrey)
+                    .padding(.bottom, 15)
+                
                 Text("Enter the world of character creation")
+                    .font(.Jura_Regular, size: 16)
+                    .foregroundStyle(.vampireGrey)
+                
+                Spacer()
                 
                 NavigationLink(destination: {
                     LoginView()
                         .toolbar(.hidden)
                 }) {
-                    Text("Get Started")
+                    Text("Get Start")
                         .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .foregroundStyle(.white)
-                        .background(.blue)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .frame(height: 58)
+                        .font(.OtomanopeeOne_Regular, size: 22)
+                        .foregroundStyle(.whiteSmoke)
+                        .background(.sherwoodGreen)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(.heavyMetal, lineWidth: 1))
                 }
             }
-            .padding(.horizontal, 20)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.horizontal, 39)
+            .padding(.top, 180)
+            .padding(.bottom, 82)
+            .ignoresSafeArea()
+            .background(.butteryWhite)
         }
     }
 }
