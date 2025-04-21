@@ -73,7 +73,6 @@ private struct ButtonLabel: View {
             .frame(height: 60)
             .font(.OtomanopeeOne_Regular, size: 22)
             .foregroundStyle(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(

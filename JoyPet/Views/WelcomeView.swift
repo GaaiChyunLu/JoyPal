@@ -37,9 +37,11 @@ struct WelcomeView: View {
                         .frame(height: 58)
                         .font(.OtomanopeeOne_Regular, size: 22)
                         .foregroundStyle(.whiteSmoke)
-                        .background(.sherwoodGreen)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
-                        .overlay(RoundedRectangle(cornerRadius: 8).stroke(.heavyMetal, lineWidth: 1))
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .foregroundStyle(.sherwoodGreen)
+                                .overlay(RoundedRectangle(cornerRadius: 8).stroke(.heavyMetal, lineWidth: 1))
+                        )
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -4,6 +4,7 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>CarterOne-Regular.ttf</string>
 		<string>Commissioner-Bold.ttf</string>
 		<string>Commissioner-Regular.ttf</string>
 		<string>FreckleFace-Regular.ttf</string>

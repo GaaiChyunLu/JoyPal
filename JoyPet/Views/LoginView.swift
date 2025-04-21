@@ -46,9 +46,11 @@ struct LoginView: View {
                     .padding(.horizontal, 58)
                     .font(.OtomanopeeOne_Regular, size: 22)
                     .foregroundStyle(.whiteSmoke)
-                    .background(.sherwoodGreen)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(.heavyMetal, lineWidth: 1))
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .foregroundStyle(.sherwoodGreen)
+                            .overlay(RoundedRectangle(cornerRadius: 8).stroke(.heavyMetal, lineWidth: 1))
+                    )
             }
             .padding(.bottom, 16)
             
@@ -116,7 +118,6 @@ private struct LoginTextField: View {
         .foregroundStyle(.white)
         .frame(height: 53)
         .padding(.horizontal, 11)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
         .background(
             RoundedRectangle(cornerRadius: 8)
                 .fill(
