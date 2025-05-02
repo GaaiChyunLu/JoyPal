@@ -13,7 +13,7 @@ struct WelcomeView: View {
                     .foregroundStyle(.vampireGrey)
                     .padding(.bottom, 10)
                 
-                Image(uiImage: UIImage())
+                Image(.welcomeIcon)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 136, height: 136)
