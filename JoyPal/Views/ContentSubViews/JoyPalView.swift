@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import DotLottie
 
 struct JoyPalView: View {
     @EnvironmentObject private var envManager: EnvManager
@@ -12,6 +13,7 @@ struct JoyPalView: View {
     @State private var placeholder: String = ""
     @State private var isGenerating: Bool = false
     @State private var doAnimation: Bool = false
+    @State private var isNext: Bool = true
     
     @FocusState private var focusing: Bool
     
@@ -29,7 +31,10 @@ struct JoyPalView: View {
                     HStack(spacing: 60) {
                         Button(action: {
                             doAnimation = true
-                            envManager.profileIndex.joyPal -= 1
+                            isNext = false
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                envManager.profileIndex.joyPal -= 1
+                            }
                         }, label: {
                             Image(systemName: "chevron.left")
                                 .resizable()
@@ -43,10 +48,38 @@ struct JoyPalView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 150, height: 200)
+                            .id(envManager.profileIndex.joyPal)
+                            .transition(
+                                .asymmetric(
+                                    insertion: .move(edge: isNext ? .trailing : .leading),
+                                    removal: .move(edge: isNext ? .leading : .trailing)
+                                )
+                                .combined(with: .opacity)
+                            )
+                            .gesture(
+                                DragGesture()
+                                    .onEnded { value in
+                                        doAnimation = true
+                                        if value.translation.width < -50, envManager.profileIndex.joyPal < profiles.endIndex - 1 {
+                                            isNext = true
+                                            withAnimation(.easeInOut(duration: 0.3)) {
+                                                envManager.profileIndex.joyPal += 1
+                                            }
+                                        } else if value.translation.width > 50, envManager.profileIndex.joyPal > profiles.startIndex {
+                                            isNext = false
+                                            withAnimation(.easeInOut(duration: 0.3)) {
+                                                envManager.profileIndex.joyPal -= 1
+                                            }
+                                        }
+                                    }
+                            )
                         
                         Button(action: {
                             doAnimation = true
-                            envManager.profileIndex.joyPal += 1
+                            isNext = true
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                envManager.profileIndex.joyPal += 1
+                            }
                         }, label: {
                             Image(systemName: "chevron.right")
                                 .resizable()
@@ -81,10 +114,12 @@ struct JoyPalView: View {
                     )
                     .overlay(alignment: .center) {
                         if isGenerating {
-                            Text("\(profiles[envManager.profileIndex.joyPal].name) is thinking...")
-                                .font(.Commissioner_Bold, size: 16)
-                                .padding(10)
-                                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 15))
+                            DotLottieAnimation(
+                                fileName: "joyPalLoading",
+                                config: AnimationConfig(autoplay: true, loop: true)
+                            )
+                            .view()
+                            .frame(width: 149, height: 63)
                         }
                     }
                     .padding(.horizontal, 18)
@@ -132,6 +167,7 @@ struct JoyPalView: View {
                                             isGenerating = false
                                         }
                                     case .failure(let error):
+                                        isGenerating = false
                                         print("Error: \(error)")
                                     }
                                 }
@@ -169,4 +205,5 @@ struct JoyPalView: View {
 
 #Preview {
     JoyPalView()
+        .environmentObject(EnvManager())
 }

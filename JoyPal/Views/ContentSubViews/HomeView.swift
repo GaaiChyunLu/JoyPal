@@ -1,10 +1,13 @@
 import SwiftUI
 import SwiftData
+import DotLottie
 
 struct HomeView: View {
     @EnvironmentObject private var envManager: EnvManager
     
     @Query private var profiles: [Profile]
+    
+    @State private var isNext: Bool = true
     
     var body: some View {
         BaseSubView {
@@ -15,12 +18,12 @@ struct HomeView: View {
                     Text("Create JoyPal")
                         .font(.FreckleFace_Regular, size: 32)
                         .foregroundStyle(.vampireGrey)
-                        .padding(.bottom, 50)
+                        .padding(.bottom, 18)
                     
                     Text("Create your first JoyPal!")
                         .font(.CarterOne_Regular, size: 20)
                         .foregroundStyle(.vampireGrey)
-                        .padding(.bottom, 50)
+                        .padding(.bottom, 39)
                     
                     Button(action: {
                         envManager.selectedTab = .create
@@ -37,17 +40,26 @@ struct HomeView: View {
                                     .foregroundStyle(.apricot, opacity: 0.8)
                             )
                     }
-                    .padding(.bottom, profiles.isEmpty ? 0 : 20)
+                    .padding(.bottom, 111)
+                    
+                    DotLottieAnimation(
+                        fileName: "homeAnimation",
+                        config: AnimationConfig(autoplay: true, loop: true, speed: 0.5)
+                    )
+                    .view()
+                    .frame(width: 150, height: 150)
                 } else {
                     Text(profiles[envManager.profileIndex.home].name)
                         .font(.FreckleFace_Regular, size: 32)
                         .foregroundStyle(.vampireGrey)
                         .padding(.bottom, 58)
-                        .animation(.linear(duration: 0.3), value: envManager.profileIndex.home)
                     
                     HStack(spacing: 30) {
                         Button(action: {
-                            envManager.profileIndex.home -= 1
+                            isNext = false
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                envManager.profileIndex.home -= 1
+                            }
                         }, label: {
                             Image(.homeLeft)
                         })
@@ -58,17 +70,42 @@ struct HomeView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 204, height: 265)
-                            .animation(.linear(duration: 0.3), value: envManager.profileIndex.home)
+                            .id(envManager.profileIndex.home)
+                            .transition(
+                                .asymmetric(
+                                    insertion: .move(edge: isNext ? .trailing : .leading),
+                                    removal: .move(edge: isNext ? .leading : .trailing)
+                                )
+                                .combined(with: .opacity)
+                            )
+                            .gesture(
+                                DragGesture()
+                                    .onEnded { value in
+                                        if value.translation.width < -50, envManager.profileIndex.home < profiles.endIndex - 1 {
+                                            isNext = true
+                                            withAnimation(.easeInOut(duration: 0.3)) {
+                                                envManager.profileIndex.home += 1
+                                            }
+                                        } else if value.translation.width > 50, envManager.profileIndex.home > profiles.startIndex {
+                                            isNext = false
+                                            withAnimation(.easeInOut(duration: 0.3)) {
+                                                envManager.profileIndex.home -= 1
+                                            }
+                                        }
+                                    }
+                            )
                         
                         Button(action: {
-                            envManager.profileIndex.home += 1
+                            isNext = true
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                envManager.profileIndex.home += 1
+                            }
                         }, label: {
                             Image(.homeLeft)
                                 .rotationEffect(.degrees(180))
                         })
                         .disabled(envManager.profileIndex.home == profiles.endIndex - 1)
                         .opacity(envManager.profileIndex.home == profiles.endIndex - 1 ? 0.3 : 1)
-                        
                     }
                     .padding(.bottom, 62)
                     

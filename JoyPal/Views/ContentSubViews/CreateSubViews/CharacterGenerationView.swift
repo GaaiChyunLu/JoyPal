@@ -3,6 +3,7 @@ import SwiftData
 
 struct CharacterGenerationView: View {
     var profileParam: ProfileParam
+    var imgData: Data? = nil
     
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
@@ -38,7 +39,7 @@ struct CharacterGenerationView: View {
         .onAppear {
             if !isGenerating {
                 isGenerating = true
-                NetworkManager.generateCharacter(profileParam: profileParam) { result in
+                NetworkManager.generateCharacter(imgData: imgData, profileParam: profileParam) { result in
                     switch result {
                     case .success(let json):
                         if let resName = json["character_name"] as? String,

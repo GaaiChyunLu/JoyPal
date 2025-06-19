@@ -8,6 +8,12 @@ public enum HexColor: UInt {
     case apricot = 0xF3B562
     /// Buttery white color: `#FFFDEE`.
     case butteryWhite = 0xFFFDEE
+    /// Cadet color: `#59706A`.
+    case cadet = 0x59706A
+    /// Cornell Red color: `#AF1313`.
+    case cornellRed = 0xAF1313
+    /// Curious Blue color: `#2A9DCE`.
+    case curiousBlue = 0x2A9DCE
     /// Heavy metal color: `#2C2C2C`.
     case heavyMetal = 0x2C2C2C
     /// Sherwood green color: `#044132`.

@@ -1,25 +1,28 @@
 import SwiftUI
 
-struct LoginView: View {
-    @State var showContentView = false
-    @State var showSignUpView = false
-    @State var username = ""
-    @State var password = ""
+struct SignUpView: View {
+    @Environment(\.dismiss) var dismiss
+    
+    @State private var username: String = ""
+    @State private var password: String = ""
+    @State private var confirmPassword: String = ""
     @State private var message: String = ""
     @State private var isProcessing: Bool = false
     @State private var shake: Bool = false
     
     var body: some View {
         VStack(spacing: 0) {
-            Text("Access Account")
+            Text("Sign Up")
                 .font(.FreckleFace_Regular, size: 32)
                 .foregroundStyle(.vampireGrey)
                 .padding(.bottom, 20)
             
             VStack(spacing: 34) {
-                LoginTextField(type: .username, text: $username)
+                SignUpTextField(type: .username, text: $username)
                 
-                LoginTextField(type: .password, text: $password)
+                SignUpTextField(type: .password, text: $password)
+                
+                SignUpTextField(type: .confirmPassword, text: $confirmPassword)
             }
             .padding(.horizontal, 29)
             .padding(.vertical, 42)
@@ -40,31 +43,29 @@ struct LoginView: View {
                 .padding(.bottom, 44)
             
             Button(action: {
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                if username.isEmpty || password.isEmpty {
+                if username.isEmpty || password.isEmpty || confirmPassword.isEmpty {
                     message = "Please fill in all required fields"
                     shakeMessage()
                 } else if !message.isEmpty {
                     shakeMessage()
                 } else {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                     isProcessing = true
-                    NetworkManager.login(username: username, password: password) { result in
+                    NetworkManager.signUp(username: username, password: password) { result in
                         switch result {
                         case .success(let json):
                             if let resError = json["error"] as? String {
                                 if !resError.isEmpty {
                                     message = resError
                                     shakeMessage()
-                                    print(resError)
+                                    print("Error: \(resError)")
                                 }
                                 break
                             }
                             
                             if let resMessage = json["message"] as? String {
-                                if resMessage == "Login successful" {
-                                    withAnimation(.spring) {
-                                        showContentView = true
-                                    }
+                                if resMessage == "User registered successfully" {
+                                    dismiss()
                                 }
                             }
                         case .failure(let error):
@@ -74,11 +75,12 @@ struct LoginView: View {
                     }
                 }
             }) {
-                Text("Log In")
+                Text("Submit")
                     .padding(.vertical, 11)
-                    .padding(.horizontal, 58)
+                    .padding(.horizontal, 55.5)
                     .font(.OtomanopeeOne_Regular, size: 22)
                     .foregroundStyle(.whiteSmoke)
+                    .disabled(isProcessing)
                     .background(
                         RoundedRectangle(cornerRadius: 8)
                             .foregroundStyle(isProcessing ? .cadet : .sherwoodGreen)
@@ -88,30 +90,23 @@ struct LoginView: View {
             .padding(.bottom, 44)
             
             Button(action: {
-                showSignUpView = true
+                dismiss()
             }) {
-                Text("Sign Up")
+                Text("Back to Login")
                     .foregroundStyle(.curiousBlue)
                     .font(size: 12)
-            }
-            .fullScreenCover(isPresented: $showSignUpView) {
-                SignUpView()
             }
             
             Spacer()
         }
-        .padding(.top, 142)
-        .padding(.horizontal, 35)
+        .padding(.top, 88)
+        .padding(.bottom, 81)
+        .padding(.horizontal, 34.5)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.butteryWhite)
         .ignoresSafeArea()
-        .onChange(of: [username, password]) {
+        .onChange(of: [username, password, confirmPassword]) {
             checkValid()
-        }
-        
-        if showContentView {
-            ContentView()
-                .transition(.push(from: .trailing))
         }
     }
     
@@ -132,6 +127,10 @@ struct LoginView: View {
             message = "Password must be 6-18 characters"
             return
         }
+        if password != confirmPassword {
+            message = "Passwords do not match"
+            return
+        }
         message = ""
     }
     
@@ -146,6 +145,7 @@ struct LoginView: View {
 private enum TextFieldType {
     case username
     case password
+    case confirmPassword
     
     var placeholder: String {
         switch self {
@@ -153,6 +153,8 @@ private enum TextFieldType {
             "Username"
         case .password:
             "Password"
+        case .confirmPassword:
+            "Confirm Password"
         }
     }
     
@@ -160,13 +162,13 @@ private enum TextFieldType {
         switch self {
         case .username:
             .logInPerson
-        case .password:
+        default:
             .logInLock
         }
     }
 }
 
-private struct LoginTextField: View {
+private struct SignUpTextField: View {
     var type: TextFieldType
     @Binding var text: String
     
@@ -183,7 +185,7 @@ private struct LoginTextField: View {
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                     .frame(height: 40)
-            case .password:
+            default:
                 SecureField("", text: $text, prompt: Text(type.placeholder).foregroundStyle(.black.opacity(0.25)))
                     .frame(height: 40)
             }
@@ -219,6 +221,5 @@ private struct LoginTextField: View {
 }
 
 #Preview {
-    LoginView()
-        .environmentObject(EnvManager())
+    SignUpView()
 }

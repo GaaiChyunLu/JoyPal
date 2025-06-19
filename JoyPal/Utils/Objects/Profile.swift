@@ -50,7 +50,7 @@ public class ProfileParam: ObservableObject {
     @Published var personality: String = ""
     
     /// Whether all the fields are filled out.
-    var isComplete: Bool {
+    public var isComplete: Bool {
         get {
             [name, appearance, gender, personality].allSatisfy {
                 $0.isEmpty == false

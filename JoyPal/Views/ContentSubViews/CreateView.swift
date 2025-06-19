@@ -1,7 +1,13 @@
 import SwiftUI
+import PhotosUI
+import Photos
 
 struct CreateView: View {
     @StateObject private var profileParam = ProfileParam()
+    
+    @State private var selectedItem: PhotosPickerItem?
+    @State private var selectedData: Data?
+    @State private var imageName: String = ""
     
     var body: some View {
         NavigationStack {
@@ -16,11 +22,41 @@ struct CreateView: View {
                     
                     ForEach(TextFieldType.allCases, id: \.self) { type in
                         CustomTextField(type: type, text: $profileParam[type])
-                            .padding(.bottom, type != TextFieldType.allCases.last ? 20 : 30)
+                            .padding(.bottom, type != TextFieldType.allCases.last ? 20 : 16)
+                    }
+                    
+                    if selectedItem == nil {
+                        PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
+                            Text("Upload a reference image (optional)​")
+                                .underline()
+                                .font(.Commissioner_Bold, size: 16)
+                                .foregroundStyle(.curiousBlue)
+                        }
+                        .padding(.bottom, 32)
+                    } else {
+                        HStack(spacing: 20) {
+                            Button(action: {
+                                selectedItem = nil
+                            }, label: {
+                                Image(.createTrash)
+                            })
+                            
+                            Text(imageName)
+                                .font(.Commissioner_Regular, size: 16)
+                                .foregroundStyle(.vampireGrey)
+                                
+                            PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
+                                Text("Change image")
+                                    .underline()
+                                    .font(.Commissioner_Bold, size: 16)
+                                    .foregroundStyle(.curiousBlue)
+                            }
+                        }
+                        .padding(.bottom, 32)
                     }
                     
                     NavigationLink {
-                        CharacterGenerationView(profileParam: profileParam)
+                        CharacterGenerationView(profileParam: profileParam, imgData: selectedData)
                     } label: {
                         Text("Next")
                             .font(.OtomanopeeOne_Regular, size: 22)
@@ -41,8 +77,9 @@ struct CreateView: View {
                         .foregroundStyle(.vampireGrey)
                         .padding(.bottom, 30)
                     
-                    Button(action: {
-                    }) {
+                    NavigationLink {
+                        CharacterGenerationView(profileParam: ProfileParam())
+                    } label: {
                         Text("Skip")
                             .font(.OtomanopeeOne_Regular, size: 22)
                             .padding(.horizontal, 54)
@@ -57,6 +94,20 @@ struct CreateView: View {
                     Spacer()
                 }
                 .padding(.horizontal, 45)
+            }
+        }
+        .onChange(of: selectedItem) { oldItem, newItem in
+            guard let item = newItem, let localID = item.itemIdentifier else { return }
+            
+            let result = PHAsset.fetchAssets(withLocalIdentifiers: [localID], options: nil)
+            if let asset = result.firstObject, let resource = PHAssetResource.assetResources(for: asset).first {
+                imageName = resource.originalFilename
+            }
+            
+            Task {
+                if let loaded = try? await item.loadTransferable(type: Data.self) {
+                    selectedData = loaded
+                }
             }
         }
         .background(
@@ -93,7 +144,7 @@ private enum TextFieldType: CaseIterable, Hashable {
     case gender
     case personality
     
-    var placeHolder: String {
+    var placeholder: String {
         switch self {
         case .name: "What's JoyPal's Name?"
         case .appearance: "What does JoyPal look like?"
@@ -109,13 +160,8 @@ private struct CustomTextField: View {
     
     var body: some View {
         HStack {
-            TextField(type.placeHolder, text: $text)
+            TextField("", text: $text, prompt: Text(type.placeholder).foregroundStyle(.black.opacity(0.25)))
                 .font(size: 16)
-//                .onChange(of: text) {
-//                    if text.count > 10 {
-//                        text = String(text.prefix(10))
-//                    }
-//                }
             
             Spacer()
             
