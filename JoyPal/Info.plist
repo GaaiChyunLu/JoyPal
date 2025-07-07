@@ -9,13 +9,13 @@
 	</dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>CarterOne-Regular.ttf</string>
 		<string>Commissioner-Bold.ttf</string>
 		<string>Commissioner-Regular.ttf</string>
 		<string>FreckleFace-Regular.ttf</string>
 		<string>Hannari-Regular.ttf</string>
 		<string>Jura-Regular.ttf</string>
 		<string>OtomanopeeOne-Regular.ttf</string>
+		<string>EBGaramond-Bold.ttf</string>
 	</array>
 </dict>
 </plist>

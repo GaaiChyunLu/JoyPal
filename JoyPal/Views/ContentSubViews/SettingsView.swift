@@ -32,12 +32,12 @@ private struct ButtonLabel: View {
         Text(label)
             .frame(maxWidth: .infinity, alignment: .leading)
             .font(.Commissioner_Bold, size: 18)
-            .foregroundStyle(.butteryWhite)
+            .foregroundStyle(.white)
             .padding(.leading, 10)
             .padding(.vertical, 10)
             .background(
                 RoundedRectangle(cornerRadius: 8)
-                    .foregroundStyle(.sherwoodGreen)
+                    .foregroundStyle(.fog)
             )
     }
 }

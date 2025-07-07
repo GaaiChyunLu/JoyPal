@@ -16,38 +16,38 @@ struct HomeView: View {
                 
                 if profiles.isEmpty {
                     Text("Create JoyPal")
-                        .font(.FreckleFace_Regular, size: 32)
+                        .font(.EBGaramond_Bold, size: 40)
                         .foregroundStyle(.vampireGrey)
-                        .padding(.bottom, 18)
+                        .shadow(color: .black.opacity(0.25), radius: 4, x: 0, y: 5)
+                        .padding(.bottom, 66)
+                    
+                    Image(.homeIcon)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 132.94, height: 161)
+                        .padding(.bottom, 55)
                     
                     Text("Create your first JoyPal!")
-                        .font(.CarterOne_Regular, size: 20)
+                        .font(.Commissioner_Bold, size: 16)
                         .foregroundStyle(.vampireGrey)
-                        .padding(.bottom, 39)
+                        .padding(.bottom, 25)
                     
                     Button(action: {
                         envManager.selectedTab = .create
                     }) {
                         Text("Create JoyPal")
-                            .frame(width: 250, height: 52)
+                            .frame(width: 220, height: 52)
                             .font(.OtomanopeeOne_Regular, size: 22)
                             .foregroundStyle(.whiteSmoke)
                             .background(
-                                RoundedRectangle(cornerRadius: 8)
+                                RoundedRectangle(cornerRadius: .infinity)
                                     .fill(
                                         .shadow(.drop(color: .black.opacity(0.25), radius: 2, x: 0, y: 5))
                                     )
-                                    .foregroundStyle(.apricot, opacity: 0.8)
+                                    .foregroundStyle(.deluge)
                             )
                     }
                     .padding(.bottom, 111)
-                    
-                    DotLottieAnimation(
-                        fileName: "homeAnimation",
-                        config: AnimationConfig(autoplay: true, loop: true, speed: 0.5)
-                    )
-                    .view()
-                    .frame(width: 150, height: 150)
                 } else {
                     Text(profiles[envManager.profileIndex.home].name)
                         .font(.FreckleFace_Regular, size: 32)
@@ -110,7 +110,7 @@ struct HomeView: View {
                     .padding(.bottom, 62)
                     
                     Text("Talk with this JoyPal!")
-                        .font(.CarterOne_Regular, size: 20)
+                        .font(.Commissioner_Bold, size: 16)
                         .foregroundStyle(.vampireGrey)
                         .padding(.bottom, 30)
                     
@@ -123,9 +123,8 @@ struct HomeView: View {
                             .font(.OtomanopeeOne_Regular, size: 22)
                             .foregroundStyle(.whiteSmoke)
                             .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .foregroundStyle(.sherwoodGreen)
-                                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(.heavyMetal, lineWidth: 1))
+                                RoundedRectangle(cornerRadius: .infinity)
+                                    .foregroundStyle(.deluge)
                             )
                     }
                 }

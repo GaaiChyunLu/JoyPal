@@ -9,22 +9,21 @@ struct WelcomeView: View {
                 Spacer()
                 
                 Text("JoyPal")
-                    .font(.FreckleFace_Regular, size: 32)
+                    .font(.EBGaramond_Bold, size: 40)
                     .foregroundStyle(.vampireGrey)
+                    .shadow(color: .black.opacity(0.25), radius: 4, x: 0, y: 5)
                     .padding(.bottom, 10)
                 
                 Image(.welcomeIcon)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 136, height: 136)
-                    .background(.summerGreen, opacity: 0.5)
-                    .clipShape(Circle())
-                    .padding(.bottom, 20)
+                    .frame(width: 206, height: 206)
+                    .padding(.bottom, 14)
                 
                 Text("Character Creator")
                     .font(.OtomanopeeOne_Regular, size: 22)
                     .foregroundStyle(.vampireGrey)
-                    .padding(.bottom, 15)
+                    .padding(.bottom, 10)
                 
                 Text("Enter the world of character creation")
                     .font(.Jura_Regular, size: 16)
@@ -43,17 +42,18 @@ struct WelcomeView: View {
                         .font(.OtomanopeeOne_Regular, size: 22)
                         .foregroundStyle(.whiteSmoke)
                         .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .foregroundStyle(.sherwoodGreen)
-                                .overlay(RoundedRectangle(cornerRadius: 8).stroke(.heavyMetal, lineWidth: 1))
+                            RoundedRectangle(cornerRadius: .infinity)
+                                .foregroundStyle(.deluge)
+                                .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 5)
                         )
                 }
+                
+                Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding(.horizontal, 39)
-            .padding(.bottom, 82)
+            .padding(.horizontal, 47.5)
             .ignoresSafeArea()
-            .background(.butteryWhite)
+            .background(.white)
             
             if showLoginView {
                 LoginView()

@@ -107,10 +107,10 @@ struct JoyPalView: View {
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                     .background(
-                        RoundedRectangle(cornerRadius: 15)
-                            .foregroundStyle(.whiteSmoke)
-                            .overlay(RoundedRectangle(cornerRadius: 15)
-                                .stroke(.black.opacity(0.25), lineWidth: 1))
+                        RoundedRectangle(cornerRadius: 5)
+                            .foregroundStyle(.white)
+                            .overlay(RoundedRectangle(cornerRadius: 5)
+                                .stroke(.osloGrey, lineWidth: 1))
                     )
                     .overlay(alignment: .center) {
                         if isGenerating {
@@ -147,10 +147,10 @@ struct JoyPalView: View {
                     .padding(10)
                     .frame(height: 87, alignment: .topLeading)
                     .background(
-                        RoundedRectangle(cornerRadius: 15)
+                        RoundedRectangle(cornerRadius: 5)
                             .foregroundStyle(.white)
-                            .overlay(RoundedRectangle(cornerRadius: 15)
-                                .stroke(.black.opacity(0.25), lineWidth: 1))
+                            .overlay(RoundedRectangle(cornerRadius: 5)
+                                .stroke(.osloGrey, lineWidth: 1))
                     )
                     .overlay(alignment: .bottomTrailing) {
                         if !message.isEmpty {

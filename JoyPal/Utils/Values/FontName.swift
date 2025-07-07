@@ -2,10 +2,6 @@ import Foundation
 
 /// Custom font names.
 public enum FontName: String {
-    /// Font: `CarterOne-Regular`.
-    ///
-    /// Source: [Google Fonts](https://fonts.google.com/specimen/Carter+One).
-    case CarterOne_Regular = "CarterOne"
     /// Font: `Commissioner-Bold`.
     ///
     /// Source: [Google Fonts](https://fonts.google.com/specimen/Commissioner).
@@ -18,6 +14,10 @@ public enum FontName: String {
     ///
     /// Source: [Google Fonts](https://fonts.google.com/specimen/Freckle+Face).
     case FreckleFace_Regular = "FreckleFace-Regular"
+    /// Font: `EBGaramond-Bold`.
+    ///
+    /// Source: [Google Fonts](https://fonts.google.com/specimen/EB+Garamond).
+    case EBGaramond_Bold = "EBGaramond-Bold"
     /// Font: `Hannari-Regular`.
     ///
     /// Source: [FFonts](https://www.ffonts.net/Hannari.font).

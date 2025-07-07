@@ -7,7 +7,8 @@ struct JoyPalApp: App {
     
     var body: some Scene {
         WindowGroup {
-            WelcomeView()
+//            WelcomeView()
+            ContentView()
         }
         .environmentObject(envManager)
         .modelContainer(for: Profile.self)

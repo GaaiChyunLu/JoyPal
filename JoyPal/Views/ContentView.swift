@@ -43,10 +43,10 @@ struct ContentView: View {
                     .fill(
                         .shadow(.drop(color: .black.opacity(0.25), radius: 2, x: 0, y: -4))
                     )
-                    .foregroundStyle(.butteryWhite)
+                    .foregroundStyle(.white)
             )
         }
-        .background(.butteryWhite)
+        .background(.white)
         .ignoresSafeArea()
     }
 }

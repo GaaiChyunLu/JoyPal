@@ -15,10 +15,16 @@ struct CreateView: View {
                 VStack(spacing: 0) {
                     Spacer()
                     
-                    Text("Let's set JoyPal's personality!")
-                        .font(.CarterOne_Regular, size: 20)
+                    Text("PERSONALITY")
+                        .font(.EBGaramond_Bold, size: 40)
                         .foregroundStyle(.vampireGrey)
-                        .padding(.bottom, 30)
+                        .shadow(color: .black.opacity(0.25), radius: 4, x: 0, y: 5)
+                        .padding(.bottom, 6)
+                    
+                    Text("Let's set JoyPal's personality!")
+                        .font(.Commissioner_Bold, size: 16)
+                        .foregroundStyle(.vampireGrey)
+                        .padding(.bottom, 16)
                     
                     ForEach(TextFieldType.allCases, id: \.self) { type in
                         CustomTextField(type: type, text: $profileParam[type])
@@ -62,10 +68,10 @@ struct CreateView: View {
                             .font(.OtomanopeeOne_Regular, size: 22)
                             .padding(.horizontal, 54)
                             .padding(.vertical, 12)
-                            .foregroundStyle(.butteryWhite)
+                            .foregroundStyle(.white)
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .foregroundStyle(profileParam.isComplete ? .sherwoodGreen : .heavyMetal, opacity: profileParam.isComplete ? 1 : 0.5)
+                                    .foregroundStyle(profileParam.isComplete ? .deluge : .fog)
                             )
                     }
                     .disabled(!profileParam.isComplete)
@@ -84,10 +90,10 @@ struct CreateView: View {
                             .font(.OtomanopeeOne_Regular, size: 22)
                             .padding(.horizontal, 54)
                             .padding(.vertical, 12)
-                            .foregroundStyle(.butteryWhite)
+                            .foregroundStyle(.white)
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .foregroundStyle(.sherwoodGreen)
+                                    .foregroundStyle(.deluge)
                             )
                     }
                     

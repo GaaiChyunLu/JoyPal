@@ -24,6 +24,12 @@ struct CharacterGenerationView: View {
                     Text("JoyPal Generating...")
                 }
                 .progressViewStyle(LinearProgressStyle())
+                .padding(.bottom, 43)
+                
+                Image(.homeIcon)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 132.94, height: 161)
                 
                 Spacer()
             }
@@ -73,7 +79,7 @@ private struct LinearProgressStyle: ProgressViewStyle {
     func makeBody(configuration: Configuration) -> some View {
         VStack(spacing: 12) {
             configuration.label
-                .font(.Jura_Regular, size: 16)
+                .font(.Commissioner_Bold, size: 16)
                 .foregroundStyle(.black)
 
             GeometryReader { geometry in

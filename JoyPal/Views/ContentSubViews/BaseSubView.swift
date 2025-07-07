@@ -11,7 +11,7 @@ struct BaseSubView<Content: View>: View {
                 .padding(.bottom, 8)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .background(.butteryWhite)
+        .background(.white)
 //        .navigationBarBackButtonHidden(true)
     }
 }

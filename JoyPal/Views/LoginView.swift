@@ -12,23 +12,24 @@ struct LoginView: View {
     var body: some View {
         VStack(spacing: 0) {
             Text("Access Account")
-                .font(.FreckleFace_Regular, size: 32)
+                .font(.EBGaramond_Bold, size: 40)
                 .foregroundStyle(.vampireGrey)
-                .padding(.bottom, 20)
+                .shadow(color: .black.opacity(0.25), radius: 4, x: 0, y: 5)
+                .padding(.bottom, 23)
             
             VStack(spacing: 34) {
                 LoginTextField(type: .username, text: $username)
                 
                 LoginTextField(type: .password, text: $password)
             }
-            .padding(.horizontal, 29)
-            .padding(.vertical, 42)
+            .padding(.horizontal, 27)
+            .padding(.vertical, 38)
             .background(
                 Rectangle()
                     .fill(
                         .shadow(.drop(color: .black.opacity(0.25), radius: 3, x: 0, y: 6))
                     )
-                    .foregroundStyle(.butteryWhite)
+                    .foregroundStyle(.fog)
             )
             .padding(.bottom, 23)
             .disabled(isProcessing)
@@ -75,35 +76,36 @@ struct LoginView: View {
                 }
             }) {
                 Text("Log In")
-                    .padding(.vertical, 11)
+                    .padding(.vertical, 9)
                     .padding(.horizontal, 58)
                     .font(.OtomanopeeOne_Regular, size: 22)
                     .foregroundStyle(.whiteSmoke)
                     .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .foregroundStyle(isProcessing ? .cadet : .sherwoodGreen)
-                            .overlay(RoundedRectangle(cornerRadius: 8).stroke(.heavyMetal, lineWidth: isProcessing ? 0 : 1))
+                        RoundedRectangle(cornerRadius: .infinity)
+                            .foregroundStyle(isProcessing ? .amethystSmoke : .deluge)
                     )
             }
+            .disabled(isProcessing)
             .padding(.bottom, 44)
             
             Button(action: {
                 showSignUpView = true
             }) {
                 Text("Sign Up")
-                    .foregroundStyle(.curiousBlue)
+                    .foregroundStyle(isProcessing ? .vampireGrey : .curiousBlue, opacity: isProcessing ? 0.5 : 1)
                     .font(size: 12)
             }
             .fullScreenCover(isPresented: $showSignUpView) {
                 SignUpView()
             }
+            .disabled(isProcessing)
             
             Spacer()
         }
         .padding(.top, 142)
         .padding(.horizontal, 35)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(.butteryWhite)
+        .background(.white)
         .ignoresSafeArea()
         .onChange(of: [username, password]) {
             checkValid()
@@ -188,8 +190,8 @@ private struct LoginTextField: View {
                     .frame(height: 40)
             }
         }
-        .font(.Commissioner_Bold, size: 16)
-        .foregroundStyle(.white)
+        .font(size: 16)
+        .foregroundStyle(.vampireGrey)
         .frame(height: 53)
         .padding(.horizontal, 11)
         .background(
@@ -212,7 +214,7 @@ private struct LoginTextField: View {
                         .shadow(color: .black.opacity(0.25), radius: 2, y: 6)
                         .offset(y: -10)
                 }
-                .foregroundStyle(.apricot, opacity: 0.8)
+                .foregroundStyle(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
         )
     }
