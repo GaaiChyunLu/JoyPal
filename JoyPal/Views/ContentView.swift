@@ -3,7 +3,10 @@ import SwiftData
 
 struct ContentView: View {
     @EnvironmentObject private var envManager: EnvManager
-    @Query private var profiles: [Profile]
+    @Query private var allProfiles: [Profile]
+    var profiles: [Profile] {
+        allProfiles.filter { $0.userId == envManager.userId }
+    }
     
     private var filteredTabItems: [TabbedItems] {
         TabbedItems.allCases.filter { item in
@@ -54,7 +57,10 @@ struct ContentView: View {
 private struct CustomTabItem: View {
     var item: TabbedItems
     @EnvironmentObject private var envManager: EnvManager
-    @Query private var profiles: [Profile]
+    @Query private var allProfiles: [Profile]
+    var profiles: [Profile] {
+        allProfiles.filter { $0.userId == envManager.userId }
+    }
     
     var body: some View {
         let isActive = (envManager.selectedTab == item)

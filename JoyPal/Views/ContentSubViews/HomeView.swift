@@ -5,8 +5,10 @@ import DotLottie
 struct HomeView: View {
     @EnvironmentObject private var envManager: EnvManager
     
-    @Query private var profiles: [Profile]
-    
+    @Query private var allProfiles: [Profile]
+    var profiles: [Profile] {
+        allProfiles.filter { $0.userId == envManager.userId }
+    }
     @State private var isNext: Bool = true
     
     var body: some View {

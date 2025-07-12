@@ -37,7 +37,7 @@ private struct ButtonLabel: View {
             .padding(.vertical, 10)
             .background(
                 RoundedRectangle(cornerRadius: 8)
-                    .foregroundStyle(.fog)
+                    .foregroundStyle(.deluge)
             )
     }
 }

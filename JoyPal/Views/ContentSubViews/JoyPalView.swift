@@ -5,8 +5,10 @@ import DotLottie
 struct JoyPalView: View {
     @EnvironmentObject private var envManager: EnvManager
     
-    @Query private var profiles: [Profile]
-    
+    @Query private var allProfiles: [Profile]
+    var profiles: [Profile] {
+        allProfiles.filter { $0.userId == envManager.userId }
+    }
     @State private var hasAppeared = false
     @State private var response: LocalizedStringKey = ""
     @State private var message: String = ""

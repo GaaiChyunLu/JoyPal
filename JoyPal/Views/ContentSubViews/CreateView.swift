@@ -8,6 +8,7 @@ struct CreateView: View {
     @State private var selectedItem: PhotosPickerItem?
     @State private var selectedData: Data?
     @State private var imageName: String = ""
+//    @State private var useOriginalImage: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -43,6 +44,7 @@ struct CreateView: View {
                         HStack(spacing: 20) {
                             Button(action: {
                                 selectedItem = nil
+                                //                                useOriginalImage = false
                             }, label: {
                                 Image(.createTrash)
                             })
@@ -50,7 +52,7 @@ struct CreateView: View {
                             Text(imageName)
                                 .font(.Commissioner_Regular, size: 16)
                                 .foregroundStyle(.vampireGrey)
-                                
+                            
                             PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
                                 Text("Change image")
                                     .underline()
@@ -58,6 +60,29 @@ struct CreateView: View {
                                     .foregroundStyle(.curiousBlue)
                             }
                         }
+                        //                        .padding(.bottom, 12.5)
+                        //                        
+                        //                        HStack(spacing: 10) {
+                        //                            Button(action: {
+                        //                                useOriginalImage.toggle()
+                        //                            }, label: {
+                        //                                Image(systemName: "checkmark")
+                        //                                    .resizable()
+                        //                                    .aspectRatio(contentMode: .fit)
+                        //                                    .bold()
+                        //                                    .padding(4)
+                        //                                    .frame(width: 20, height: 20)
+                        //                                    .foregroundStyle(.white)
+                        //                                    .background(
+                        //                                        RoundedRectangle(cornerRadius: 5)
+                        //                                            .foregroundStyle(useOriginalImage ? .deluge : .fog)
+                        //                                    )
+                        //                            })
+                        //                            
+                        //                            Text("Use this image directly")
+                        //                                .font(.Commissioner_Bold, size: 16)
+                        //                                .foregroundStyle(.vampireGrey)
+                        //                        }
                         .padding(.bottom, 32)
                     }
                     
@@ -116,10 +141,7 @@ struct CreateView: View {
                 }
             }
         }
-        .background(
-            Color.init(hex: 0xFFFDEE)
-                .ignoresSafeArea(.keyboard)
-        )
+        .animation(.linear(duration: 0.25), value: selectedItem)
     }
 }
 

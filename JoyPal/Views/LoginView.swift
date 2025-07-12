@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct LoginView: View {
+    @EnvironmentObject private var envManager: EnvManager
+    
     @State var showContentView = false
     @State var showSignUpView = false
+    @State var userId = ""
     @State var username = ""
     @State var password = ""
     @State private var message: String = ""
@@ -61,8 +64,11 @@ struct LoginView: View {
                                 break
                             }
                             
-                            if let resMessage = json["message"] as? String {
+                            if let resMessage = json["message"] as? String,
+                               let resUser = json["user"] as? [String: Any],
+                               let resUserId = resUser["id"] as? Int {
                                 if resMessage == "Login successful" {
+                                    userId = String(resUserId)
                                     withAnimation(.spring) {
                                         showContentView = true
                                     }
@@ -109,6 +115,9 @@ struct LoginView: View {
         .ignoresSafeArea()
         .onChange(of: [username, password]) {
             checkValid()
+        }
+        .onChange(of: userId) {
+            envManager.userId = userId
         }
         
         if showContentView {

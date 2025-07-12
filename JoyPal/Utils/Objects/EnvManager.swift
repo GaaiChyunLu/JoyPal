@@ -42,6 +42,8 @@ public class EnvManager: ObservableObject {
     @Published var selectedTab: TabbedItems = .home
     /// The indices of the currently displayed profile.
     @Published var profileIndex = ProfileIndex()
+    /// The unique ID of currently logged-in user.
+    @Published var userId: String = ""
 }
 
 /// A struct representing the indices of the currently displayed profiles.

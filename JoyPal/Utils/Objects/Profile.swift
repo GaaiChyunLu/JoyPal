@@ -7,6 +7,8 @@ import SwiftData
     
     /// The unique identifier for the profile.
     public var id: UUID
+    /// The user ID associated with the profile.
+    var userId: String
     /// The name of the JoyPal.
     var name: String
     /// The appearance description of the JoyPal.
@@ -25,11 +27,13 @@ import SwiftData
     ///
     /// - Parameters:
     ///   - id: The unique identifier for the profile.
+    ///   - userId: The user ID associated with the profile.
     ///   - name: The name of the JoyPal.
     ///   - profileParam: The parameters describing the JoyPal's characteristics.
     ///   - image: The generated image of the JoyPal.
-    public init(id: UUID, name: String, profileParam: ProfileParam, image: UIImage) {
+    public init(id: UUID, userId: String, name: String, profileParam: ProfileParam, image: UIImage) {
         self.id = id
+        self.userId = userId
         self.name = name
         self.appearance = profileParam.appearance
         self.gender = profileParam.gender

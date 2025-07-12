@@ -10,7 +10,10 @@ struct CharacterGenerationView: View {
     
     @EnvironmentObject private var envManager: EnvManager
     
-    @Query private var profiles: [Profile]
+    @Query private var allProfiles: [Profile]
+    var profiles: [Profile] {
+        allProfiles.filter { $0.userId == envManager.userId }
+    }
     
     @State var doNavigation: Bool = false
     @State var isGenerating: Bool = false
@@ -54,7 +57,7 @@ struct CharacterGenerationView: View {
                                 NetworkManager.fetchImage(from: imageUrlString) { result in
                                     switch result {
                                     case .success(let resImage):
-                                        modelContext.insert(Profile(id: UUID(), name: resName, profileParam: profileParam, image: resImage))
+                                        modelContext.insert(Profile(id: UUID(), userId: envManager.userId, name: resName, profileParam: profileParam, image: resImage))
                                         try? modelContext.save()
                                         doNavigation = true
                                     case .failure(let error):
