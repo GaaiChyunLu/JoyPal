@@ -48,7 +48,7 @@ struct CharacterGenerationView: View {
         .onAppear {
             if !isGenerating {
                 isGenerating = true
-                NetworkManager.generateCharacter(imgData: imgData, profileParam: profileParam) { result in
+                NetworkManager.generateCharacter(imgData: imgData, userToken: envManager.userToken, profileParam: profileParam) { result in
                     switch result {
                     case .success(let json):
                         if let resName = json["character_name"] as? String,

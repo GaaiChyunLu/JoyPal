@@ -5,6 +5,7 @@ struct LoginView: View {
     
     @State var showContentView = false
     @State var showSignUpView = false
+    @State var userToken = ""
     @State var userId = ""
     @State var username = ""
     @State var password = ""
@@ -65,9 +66,11 @@ struct LoginView: View {
                             }
                             
                             if let resMessage = json["message"] as? String,
+                               let resUserToken = json["token"] as? String,
                                let resUser = json["user"] as? [String: Any],
                                let resUserId = resUser["id"] as? Int {
                                 if resMessage == "Login successful" {
+                                    userToken = resUserToken
                                     userId = String(resUserId)
                                     withAnimation(.spring) {
                                         showContentView = true
@@ -116,7 +119,8 @@ struct LoginView: View {
         .onChange(of: [username, password]) {
             checkValid()
         }
-        .onChange(of: userId) {
+        .onChange(of: [userToken, userId]) {
+            envManager.userToken = userToken
             envManager.userId = userId
         }
         

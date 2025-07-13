@@ -42,7 +42,7 @@ class NetworkManager {
     ///   - imgData: Optional image data for the character. If provided, the request will be sent to the image-to-image generation endpoint.
     ///   - profileParam: The parameters describing the character's characteristics.
     ///   - completion: A closure that is called with the result of the request.
-    public static func generateCharacter(imgData: Data? = nil, profileParam: ProfileParam, completion: @escaping (Result<[String: Any], Error>) -> Void) {
+    public static func generateCharacter(imgData: Data? = nil, userToken: String, profileParam: ProfileParam, completion: @escaping (Result<[String: Any], Error>) -> Void) {
         let urlString = imgData == nil ? "http://joypal.natapp1.cc/generate/text2img" : "http://joypal.natapp1.cc/generate/img2img"
 
         if imgData == nil {
@@ -54,12 +54,13 @@ class NetworkManager {
                     ["Personality": profileParam.personality]
                 ]
             ]
-            sendPostRequest(urlString: urlString, body: body, completion: completion)
+            sendPostRequest(urlString: urlString, userToken: userToken, body: body, completion: completion)
         } else {
             var request = URLRequest(url: URL(string: urlString)!)
             let boundary = UUID().uuidString
             request.httpMethod = "POST"
             request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            request.setValue(userToken, forHTTPHeaderField: "token")
         
             let description: [[String: String]] = [
                 ["Name": profileParam.name],
@@ -123,7 +124,7 @@ class NetworkManager {
     ///   - message: The input message for text generation.
     ///   - profile: The profile containing the character's characteristics.
     ///   - completion: A closure that is called with the result of the request.
-    public static func generateText(message: String, profile: Profile, completion: @escaping (Result<[String: Any], Error>) -> Void) {
+    public static func generateText(message: String, userToken: String, profile: Profile, completion: @escaping (Result<[String: Any], Error>) -> Void) {
         let urlString = "http://joypal.natapp1.cc/generate-text"
 
         let body: [String: Any] = [
@@ -138,7 +139,7 @@ class NetworkManager {
             ]
         ]
         
-        sendPostRequest(urlString: urlString, body: body, completion: completion)
+        sendPostRequest(urlString: urlString, userToken: userToken, body: body, completion: completion)
     }
     
     /// Fetch an image from the provided URL string.
@@ -167,13 +168,16 @@ class NetworkManager {
         task.resume()
     }
     
-    private static func sendPostRequest(urlString: String, body: [String: Any], completion: @escaping (Result<[String: Any], Error>) -> Void) {
+    private static func sendPostRequest(urlString: String, userToken: String? = nil, body: [String: Any], completion: @escaping (Result<[String: Any], Error>) -> Void) {
         guard let url = URL(string: urlString) else { return }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+        if let userToken = userToken {
+            request.setValue(userToken, forHTTPHeaderField: "token")
+        }
+            
         do {
             request.httpBody = try JSONSerialization.data(withJSONObject: body, options: [])
         } catch {

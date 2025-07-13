@@ -44,6 +44,8 @@ public class EnvManager: ObservableObject {
     @Published var profileIndex = ProfileIndex()
     /// The unique ID of currently logged-in user.
     @Published var userId: String = ""
+    /// The token of the currently logged-in user.
+    @Published var userToken: String = ""
 }
 
 /// A struct representing the indices of the currently displayed profiles.

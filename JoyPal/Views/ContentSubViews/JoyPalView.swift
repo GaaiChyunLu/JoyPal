@@ -160,7 +160,7 @@ struct JoyPalView: View {
                                 focusing = false
                                 isGenerating = true
                                 
-                                NetworkManager.generateText(message: message, profile: profiles[envManager.profileIndex.joyPal]) { result in
+                                NetworkManager.generateText(message: message, userToken: envManager.userToken, profile: profiles[envManager.profileIndex.joyPal]) { result in
                                     switch result {
                                     case .success(let json):
                                         if let resResult = json["result"] as? [String: String],
